@@ -1,38 +1,47 @@
+import { Router } from '@vaadin/router';
 import { LitElement, html } from 'lit-element';
-import { WiredTextarea } from "wired-textarea";
-
-
-import '@vaadin/vaadin-form-layout/vaadin-form-layout.js';
-
-import '@vaadin/vaadin-text-field/vaadin-text-field.js';
-import '@vaadin/vaadin-text-field/vaadin-text-area.js';
-import '@vaadin/vaadin-text-field/vaadin-password-field.js';
-import '@vaadin/vaadin-text-field/vaadin-email-field.js';
-
-import '@vaadin/vaadin-button';
-
-
-const VisibilityFilters = {
-  SHOW_ALL: 'All',
-  SHOW_ACTIVE: 'Active',
-  SHOW_COMPLETED: 'Completed'
-};
 
 class LoginView extends LitElement {
 
   static get properties() {
     return {
-      todos: { type: Array },
-      filter: { type: String },
-      task: { type: String }
+      disabled: { attribute: false },
+      username: { attribute: false },
+      password: { attribute: false }
     };
   }
 
   constructor() {
     super();
-    this.todos = [];
-    this.filter = VisibilityFilters.SHOW_ALL;
-    this.task = '';
+    this.disabled = true;
+  }
+
+  login(event) {
+    event.preventDefault();
+    console.log(document.getElementById('username'));
+    this.username = document.getElementById('username').value;
+    this.password = document.getElementById('password').value;
+    if (this.username && this.password) {
+      Router.go('/home');
+    }
+  }
+
+  validateInput(fieldName) {
+    if (!document.getElementById(`${fieldName}`).value) {
+      document.getElementById(`${fieldName}`).classList.add('is-danger');
+      document.getElementById(`err${fieldName}`).classList.add('is-danger');
+      document.getElementById(`err${fieldName}`).innerText = `Enter ${fieldName}`;
+    } else {
+      document.getElementById(`${fieldName}`).classList.remove('is-danger');
+      document.getElementById(`err${fieldName}`).classList.remove('is-danger');
+      document.getElementById(`err${fieldName}`).innerText = '';
+    }
+
+    if (document.getElementById('username').value && document.getElementById('password').value) {
+      this.disabled = false;
+    } else {
+      this.disabled = true;
+    }
   }
 
   render() {
@@ -46,71 +55,28 @@ class LoginView extends LitElement {
         <div class="field">
           <label class="label">Email/ Username</label>
           <div class="control">
-            <input class="input" type="text" placeholder="Enter email/ username">
+            <input id="username" class="input" type="text" placeholder="Enter email/ username"
+            @input=${() => this.validateInput('username')}>
+            <label id="errusername" class="help"></label>
           </div>
         </div>
 
         <div class="field">
           <label class="label">Password</label>
           <div class="control">
-            <input class="input" type="password" placeholder="********">
+            <input id="password" class="input" type="password" placeholder="********"
+            @input=${() => this.validateInput('password')}>
+            <label id="errpassword" class="help"></label>
           </div>
         </div>
-        <button class="button is-link" @click="${this.validateAttributes}">Login</button>
+        <button id="submit" class="button is-link" @click="${e => this.login(e)}"
+        ?disabled = ${this.disabled}>Login</button>
         <button class="button is-link is-light">
-          <a href="/register" class="has-text-link">Register a new account</a>
+          <a href="/registration" class="has-text-link">Register a new account</a>
         </button>
       </form>
     </div>
     `;
-  }
-
-  addTodo() {
-    if (this.task) {
-      this.todos = [
-        ...this.todos,
-        {
-          task: this.task,
-          complete: false
-        }
-      ];
-      this.task = '';
-    }
-  }
-
-  shortcutListener(e) {
-    if (e.key === 'Enter') {
-      this.addTodo();
-    }
-  }
-
-  updateTask(e) {
-    this.task = e.target.value;
-  }
-
-  updateTodoStatus(updatedTodo, complete) {
-    this.todos = this.todos.map(todo =>
-      updatedTodo === todo ? { ...updatedTodo, complete } : todo
-    );
-  }
-
-  filterChanged(e) {
-    this.filter = e.target.value;
-  }
-
-  clearCompleted() {
-    this.todos = this.todos.filter(todo => !todo.complete);
-  }
-
-  applyFilter(todos) {
-    switch (this.filter) {
-      case VisibilityFilters.SHOW_ACTIVE:
-        return todos.filter(todo => !todo.complete);
-      case VisibilityFilters.SHOW_COMPLETED:
-        return todos.filter(todo => todo.complete);
-      default:
-        return todos;
-    }
   }
 
   createRenderRoot() {

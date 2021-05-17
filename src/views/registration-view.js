@@ -1,29 +1,13 @@
 import { LitElement, html, css } from 'lit-element';
-import { WiredTextarea } from "wired-textarea";
-
-import '@vaadin/vaadin-form-layout/vaadin-form-layout.js';
-
-import '@vaadin/vaadin-text-field/vaadin-text-field.js';
-import '@vaadin/vaadin-text-field/vaadin-text-area.js';
-import '@vaadin/vaadin-text-field/vaadin-password-field.js';
-import '@vaadin/vaadin-text-field/vaadin-email-field.js';
-import '@vaadin/vaadin-text-field/vaadin-number-field.js';
-
-import '@vaadin/vaadin-button';
-
-const VisibilityFilters = {
-  SHOW_ALL: 'All',
-  SHOW_ACTIVE: 'Active',
-  SHOW_COMPLETED: 'Completed'
-};
-
 class RegistrationView extends LitElement {
 
   static get properties() {
     return {
-      todos: { type: Array },
-      filter: { type: String },
-      task: { type: String }
+      username: { type: String },
+      email: { type: String },
+      password: { type: String },
+      confirmPassword: { type: String },
+      disabled: { type: Boolean }
     };
   }
 
@@ -39,9 +23,33 @@ class RegistrationView extends LitElement {
 
   constructor() {
     super();
-    this.todos = [];
-    this.filter = VisibilityFilters.SHOW_ALL;
-    this.task = '';
+    this.disabled = true;
+  }
+
+  validateInput(fieldName) {
+    if (!document.getElementById(`${fieldName}`).value) {
+      document.getElementById(`${fieldName}`).classList.add('is-danger');
+      document.getElementById(`err${fieldName}`).classList.add('is-danger');
+      document.getElementById(`err${fieldName}`).innerText = `Enter ${fieldName}`;
+    } else {
+      document.getElementById(`${fieldName}`).classList.remove('is-danger');
+      document.getElementById(`err${fieldName}`).classList.remove('is-danger');
+      document.getElementById(`err${fieldName}`).innerText = '';
+    }
+
+    if (document.getElementById('username').value && document.getElementById('password').value &&
+      document.getElementById('confirmPassword').value && document.getElementById('email').value) {
+      if (document.getElementById('password').value !== document.getElementById('confirmPassword').value) {
+        this.disabled = true;
+        document.getElementById('errconfirmPassword').classList.add('is-danger');
+        document.getElementById(`errconfirmPassword`).innerText = 'Password and Confirm Password do not match';
+      } else {
+        document.getElementById('errconfirmPassword').classList.remove('is-danger');
+      }
+      this.disabled = false;
+    } else {
+      this.disabled = true;
+    }
   }
 
   render() {
@@ -54,31 +62,40 @@ class RegistrationView extends LitElement {
         <div class="field">
           <label class="label">Username</label>
           <div class="control">
-            <input class="input" type="text" placeholder="Enter username">
+            <input id="username" class="input" type="text" placeholder="Enter username"
+            @input=${() => this.validateInput('username')}>
+            <label id="errusername" class="help"></label>
           </div>
         </div>
 
         <div class="field">
           <label class="label">Email</label>
           <div class="control">
-            <input class="input" type="email" placeholder="e.g. alex@example.com">
+            <input id="email" class="input" type="email" placeholder="e.g. alex@example.com"
+            @input=${() => this.validateInput('email')}>
+            <label id="erremail" class="help"></label>
           </div>
         </div>
 
         <div class="field">
           <label class="label">Password</label>
           <div class="control">
-            <input class="input" type="password" placeholder="********">
+            <input id="password" class="input" type="password" placeholder="********"
+            @input=${() => this.validateInput('password')}>
+            <label id="errpassword" class="help"></label>
           </div>
         </div>
 
         <div class="field">
           <label class="label">Confirm Password</label>
           <div class="control">
-            <input class="input" type="password" placeholder="********">
+            <input id="confirmPassword" class="input" type="password" placeholder="********"
+            @input=${() => this.validateInput('confirmPassword')}>
+            <label id="errconfirmPassword" class="help"></label>
           </div>
         </div>
-        <button class="button is-link" @click="${this.validateAttributes}">Register</button>
+        <button class="button is-link" @click="${this.validateAttributes}"
+        ?disabled = ${this.disabled}>Register</button>
         <button class="button is-link is-light">
           <a href="/" class="has-text-link">Cancel</a>
         </button>
@@ -89,10 +106,10 @@ class RegistrationView extends LitElement {
 
 
   validateAttributes() {
-    var name = this.shadowRoot.getElementById("name").value;
-    var email = this.shadowRoot.getElementById("email").value;
-    var password = this.shadowRoot.getElementById("password").value;
-    
+    var username = document.getElementById("username").value;
+    var email = document.getElementById("email").value;
+    var password = document.getElementById("password").value;
+    console.log(password);  
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
@@ -104,54 +121,6 @@ class RegistrationView extends LitElement {
     xhttp.send("email=" + email + "&password=" + password);
     alert('success');
     return false;
-  }
-
-  addTodo() {
-    if (this.task) {
-      this.todos = [
-        ...this.todos,
-        {
-          task: this.task,
-          complete: false
-        }
-      ];
-      this.task = '';
-    }
-  }
-
-  shortcutListener(e) {
-    if (e.key === 'Enter') {
-      this.addTodo();
-    }
-  }
-
-  updateTask(e) {
-    this.task = e.target.value;
-  }
-
-  updateTodoStatus(updatedTodo, complete) {
-    this.todos = this.todos.map(todo =>
-      updatedTodo === todo ? { ...updatedTodo, complete } : todo
-    );
-  }
-
-  filterChanged(e) {
-    this.filter = e.target.value;
-  }
-
-  clearCompleted() {
-    this.todos = this.todos.filter(todo => !todo.complete);
-  }
-
-  applyFilter(todos) {
-    switch (this.filter) {
-      case VisibilityFilters.SHOW_ACTIVE:
-        return todos.filter(todo => !todo.complete);
-      case VisibilityFilters.SHOW_COMPLETED:
-        return todos.filter(todo => todo.complete);
-      default:
-        return todos;
-    }
   }
 
   createRenderRoot() {

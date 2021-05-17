@@ -1,5 +1,6 @@
 import './styles.css';
 import './views/registration-view.js';
+import './views/dashboard-view.js';
 import { Router } from '@vaadin/router';
 
 window.addEventListener('load', () => { 
@@ -19,10 +20,18 @@ function initRouter() {
     },
 
     {
-      path: '(.*)', 
+      path: '/registration', 
       component: 'registration-view',
       action: () =>
         import(/* webpackChunkName: "not-found-view" */ './views/registration-view')
+    },
+
+    {
+      path: '/home', 
+      component: 'dashboard-view',
+      action: () =>
+        import(/* webpackChunkName: "not-found-view" */ './views/dashboard-view')
     }
+
   ]);
 }

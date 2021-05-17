@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit-element';
+import { LitElement, html, css } from 'lit-element';
 import { WiredTextarea } from "wired-textarea";
 
 import '@vaadin/vaadin-form-layout/vaadin-form-layout.js';
@@ -27,6 +27,16 @@ class RegistrationView extends LitElement {
     };
   }
 
+  static get styles() {
+    return [
+      css`
+      .w-50 {
+        width: 50% !important;
+      }
+    `
+    ];
+  }
+
   constructor() {
     super();
     this.todos = [];
@@ -36,27 +46,44 @@ class RegistrationView extends LitElement {
 
   render() {
     return html`
-    <div class="container-fluid is-flex is-justify-content-center">
-        <div class="box"">
-          <label class="label">Register</label>
-          <vaadin-form-layout >
-          <vaadin-text-field label="Username" value="" placeholder="Enter email"></vaadin-text-field>
-          <vaadin-text-field label="Email" value="" placeholder="Enter username"></vaadin-text-field>
-          <vaadin-text-field label="Password" value="" placeholder="Enter password"></vaadin-text-field>
-          <vaadin-text-field label="Confirm Password" value="" placeholder="Enter confirm password"></vaadin-text-field>
-          <vaadin-button class="is-flex is-justify-content-center button is-link" @click="${this.validateAttributes}">
-            Submit
-          </vaadin-button>
-          <div class="field">
-            <div class="control">
-            <label class="is-link">
-              <a href="/" class="has-text-link">Cancel</a>
-            </label>
-            </div>
-          </div>
-          </vaadin-form-layout>
+    <div class="container-fluid is-flex is-justify-content-center is-flex-wrap-wrap">
+      <form class="box" style="width: 50%">
+        <div class="field">
+        <label class="label">Register here</label>
         </div>
-      </div>
+        <div class="field">
+          <label class="label">Username</label>
+          <div class="control">
+            <input class="input" type="text" placeholder="Enter username">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Email</label>
+          <div class="control">
+            <input class="input" type="email" placeholder="e.g. alex@example.com">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Password</label>
+          <div class="control">
+            <input class="input" type="password" placeholder="********">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Confirm Password</label>
+          <div class="control">
+            <input class="input" type="password" placeholder="********">
+          </div>
+        </div>
+        <button class="button is-link" @click="${this.validateAttributes}">Register</button>
+        <button class="button is-link is-light">
+          <a href="/" class="has-text-link">Cancel</a>
+        </button>
+      </form>
+    </div>
     `;
   }
 

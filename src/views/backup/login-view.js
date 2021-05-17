@@ -34,16 +34,6 @@ class LoginView extends LitElement {
   render() {
     return html`
     <vaadin-login-form></vaadin-login-form>
-      <vaadin-form-layout>
-        <vaadin-text-field label="First Name" value="Jane"></vaadin-text-field>
-        <vaadin-text-field label="Last Name" value="Doe"></vaadin-text-field>
-        <vaadin-text-field label="Email" value="jane.doe@example.com"></vaadin-text-field>
-        <vaadin-date-picker label="Birthday" value="1993-06-23"></vaadin-date-picker>
-        <vaadin-text-area label="Bio" colspan="2" value="My name is Jane."></vaadin-text-area>
-      </vaadin-form-layout>
-      <vaadin-button theme="primary" @click="${this.addTodo}">
-        Submit
-      </vaadin-button>
     `;
   }
 

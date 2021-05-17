@@ -36,26 +36,27 @@ class RegistrationView extends LitElement {
 
   render() {
     return html`
-      <vaadin-form-layout columns="1, 30em 2 labels-on-top, 40em 2, 50em 3 labels-on-top">
-        <vaadin-form-item>
-          <label slot="label">Name</label>
-          <input class="full-width" id="name" value="">
-        </vaadin-form-item>
-        <vaadin-form-item>
-          <label slot="label">Email</label>
-          <input class="full-width" id="email" value="">
-        </vaadin-form-item>
-        <vaadin-form-item>
-          <label slot="label">Password</label>
-          <input class="full-width" id="password"  value="">
-        </vaadin-form-item>
-        <vaadin-form-item>
-          <vaadin-button theme="primary" @click="${this.validateAttributes}">
+    <div class="container-fluid is-flex is-justify-content-center">
+        <div class="box"">
+          <label class="label">Register</label>
+          <vaadin-form-layout >
+          <vaadin-text-field label="Username" value="" placeholder="Enter email"></vaadin-text-field>
+          <vaadin-text-field label="Email" value="" placeholder="Enter username"></vaadin-text-field>
+          <vaadin-text-field label="Password" value="" placeholder="Enter password"></vaadin-text-field>
+          <vaadin-text-field label="Confirm Password" value="" placeholder="Enter confirm password"></vaadin-text-field>
+          <vaadin-button class="is-flex is-justify-content-center button is-link" @click="${this.validateAttributes}">
             Submit
           </vaadin-button>
-        </vaadin-form-item>
-      </vaadin-form-layout>
-      
+          <div class="field">
+            <div class="control">
+            <label class="is-link">
+              <a href="/" class="has-text-link">Cancel</a>
+            </label>
+            </div>
+          </div>
+          </vaadin-form-layout>
+        </div>
+      </div>
     `;
   }
 
@@ -124,6 +125,10 @@ class RegistrationView extends LitElement {
       default:
         return todos;
     }
+  }
+
+  createRenderRoot() {
+    return this;
   }
 }
 

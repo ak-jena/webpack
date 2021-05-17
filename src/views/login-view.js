@@ -37,13 +37,25 @@ class LoginView extends LitElement {
 
   render() {
     return html`
-      <vaadin-form-layout>
-        <vaadin-text-field label="Email" value=""></vaadin-text-field>
-        <vaadin-text-field label="Password" value=""></vaadin-text-field>
-      </vaadin-form-layout>
-      <vaadin-button theme="primary" @click="${this.validateAttributes}">
-        Submit
-      </vaadin-button>
+    <div class="container is-flex is-justify-content-center">
+      <div class="box">
+        <label class="label">Login</label>
+        <vaadin-form-layout>
+        <vaadin-text-field label="Email/ Username" value="" placeholder="Enter username" class="control"></vaadin-text-field>
+        <vaadin-text-field label="Password" value="" placeholder="Enter password" class="control"></vaadin-text-field>
+        <vaadin-button class="button is-link" @click="${this.validateAttributes}">
+          Submit
+        </vaadin-button>
+        <div class="field">
+          <div class="control">
+            <label class="is-link">
+              <a href="/registration" class="has-text-link">Register a new account</a>
+            </label>
+          </div>
+        </div>
+        </vaadin-form-layout>
+      </div>
+    </div>
     `;
   }
 

@@ -21,9 +21,27 @@ class LoginView extends LitElement {
     console.log(document.getElementById('username'));
     this.username = document.getElementById('username').value;
     this.password = document.getElementById('password').value;
-    if (this.username && this.password) {
+
+    const data = { username: username, password: password };
+
+    fetch('http://localhost:8091/api/login?email=Amiya.jena@annalect.com&password=abcde', {
+      method: 'GET', // or 'PUT'
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      // body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(data => {
       Router.go('/home');
-    }
+      console.log('Success:', data);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+   /* if (this.username && this.password) {
+      Router.go('/home');
+    }*/
   }
 
   validateInput(fieldName) {

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="has-navbar-fixed-top">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,6 +8,7 @@
 
     <link rel="icon" type="image/png" href="./img/icons/favicon.png" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+<link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css">
     <meta name="theme-color" content="#2A3443" />
     <meta name="description" content="Tutorial app." />
 
@@ -16,9 +17,22 @@
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-status-bar-style" content="black" />
     <meta name="mobile-web-app-title" content="TutorialApp" />
+    <script type="module">
+      import '@polymer/paper-tooltip/paper-tooltip.js';
+    </script>
     <script>
       if (!window.customElements) {
         document.write('<!--');
+      }
+
+      function myFunction() {
+        localStorage.clear();
+        window.location.href = "http://localhost:8080/";
+        /*
+        fetch('http://example.com/movies.json')
+          .then(response => response.json())
+          .then(data => console.log(data));
+          */
       }
     </script>
     <script src="./vendor/custom-elements-es5-adapter.js"></script>
@@ -26,12 +40,103 @@
   </head>
 
   <body>
-    <header><h1>Test app</h1></header>
-    <nav>
-      <!-- <a href="/">Login</a>
-      <a href="/registration">Registration</a> -->
+    <!-- <header><h1>Test app</h1></header> -->
+    <nav class="navbar is-fixed-top is-info">
+      <div class="navbar-brand" style="margin-top: -0.7em">
+        <a class="navbar-item" href="https://bulma.io">
+          <img src="https://www.annalect.com/wp-content/uploads/2018/05/annalect_logo_400x113.png" alt="Girl in a jacket">
+        </a>
+        <div class="navbar-burger" data-target="navbarExampleTransparentExample">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+
+      <div id="navbarExampleTransparentExample" class="navbar-menu tags are-large">
+        <div class="navbar-start">
+          <a class="navbar-item tag is-primary is-medium" href="/dashboard">
+              Dashboard<paper-tooltip>Details of the users</paper-tooltip>
+          </a>
+          <a class="navbar-item tag is-primary is-medium" href="/home">
+            Users List<paper-tooltip>List of users</paper-tooltip>
+          </a>
+          <div class="navbar-item has-dropdown is-hoverable tag is-primary is-medium">
+            <a class="navbar-link">
+              Manage Profile<paper-tooltip>Manage Profile</paper-tooltip>
+            </a>
+            <div class="navbar-dropdown">
+              <a class="navbar-item">
+                Create User<paper-tooltip>Create user</paper-tooltip>
+              </a>
+              <a href="/jobs" class="navbar-item">
+                Jobs<paper-tooltip>Jobs</paper-tooltip>
+              </a>
+              <hr class="navbar-divider">
+              <a class="navbar-item">
+                Report an issue<paper-tooltip>Jobs</paper-tooltip>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="navbar-end">
+            <div class="field is-grouped">
+              <!-- <p class="control">
+                <a class="bd-tw-button button" data-social-network="Twitter" data-social-action="tweet" data-social-target="https://bulma.io" target="_blank" href="https://twitter.com/intent/tweet?text=Bulma: a modern CSS framework based on Flexbox&amp;hashtags=bulmaio&amp;url=https://bulma.io&amp;via=jgthms">
+                  <span class="icon">
+                    <i class="fab fa-twitter"></i>
+                  </span>
+                  <span>
+                    Tweet
+                  </span>
+                </a>
+              </p> -->
+              <p class="control">
+                <a class="button tag is-primary is-medium" href="#" id="logout" onclick="myFunction()">
+                  <span class="icon">
+                    <i class="fas fa-download"></i>
+                  </span>
+                  <span>Log out</span>
+                </a>
+              </p>
+            </div>
+          
+        </div>
+      </div>
     </nav>
     <main></main>
+    <footer class="footer">
+      <div class="content has-text-centered">
+        <p>
+          <strong>Annalect</strong> by <a href="https://jgthms.com">Omnicom Media</a>. The source code is licensed
+          <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
+          is licensed Test</a>.
+        </p>
+      </div>
+    </footer>
     <script src="./vendor/webcomponents-loader.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+    <script>
+      $(document).ready(function() {
+
+        // Check for click events on the navbar burger icon
+        $(".navbar-burger").click(function() {
+            // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+            $(".navbar-burger").toggleClass("is-active");
+            $(".navbar-menu").toggleClass("is-active");
+        });
+
+        $("#file-js-example").click(function() {
+            // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+            alert('aaaaaaaaaaaa');
+            //if (fileInput.files.length > 0) {
+            //  const fileName = document.querySelector('#file-js-example .file-name');
+            //  fileName.textContent = fileInput.files[0].name;
+            //}
+        });
+      });
+    </script>
   </body>
 </html>

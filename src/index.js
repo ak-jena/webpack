@@ -1,5 +1,6 @@
 import './styles.css';
 import './views/registration-view.js';
+import './views/home-view.js';
 import './views/dashboard-view.js';
 import { Router } from '@vaadin/router';
 
@@ -27,10 +28,24 @@ function initRouter() {
     },
 
     {
-      path: '/home', 
+      path: '/dashboard', 
       component: 'dashboard-view',
       action: () =>
         import(/* webpackChunkName: "not-found-view" */ './views/dashboard-view')
+    },
+
+    {
+      path: '/home', 
+      component: 'home-view',
+      action: () =>
+        import(/* webpackChunkName: "not-found-view" */ './views/home-view')
+    },
+
+    {
+      path: '/jobs', 
+      component: 'jobs-view',
+      action: () =>
+        import(/* webpackChunkName: "not-found-view" */ './views/jobs-view')
     }
 
   ]);

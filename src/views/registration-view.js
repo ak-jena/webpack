@@ -29,11 +29,12 @@ class RegistrationView extends LitElement {
   constructor() {
     super();
     this.disabled = true;
-    document.getElementById("logout").style.visibility = "hidden";
-    document.getElementById("navbarExampleTransparentExample").style.visibility = "hidden";
+    document.getElementById("nav-top-bar").style.visibility = "hidden";
+    //document.getElementById("navbarExampleTransparentExample").style.visibility = "hidden";
   }
 
   validateInput(fieldName) {
+    var dataDisable = true;
     if (!document.getElementById(`${fieldName}`).value) {
       document.getElementById(`${fieldName}`).classList.add('is-danger');
       document.getElementById(`err${fieldName}`).classList.add('is-danger');
@@ -44,16 +45,17 @@ class RegistrationView extends LitElement {
       document.getElementById(`err${fieldName}`).innerText = '';
     }
 
-    if (document.getElementById('username').value && document.getElementById('password').value &&
-      document.getElementById('bio').value && document.getElementById('confirmPassword').value 
-      && document.getElementById('email').value) {
-      if (document.getElementById('password').value !== document.getElementById('confirmPassword').value) {
-        this.disabled = true;
+    if (document.getElementById('password').value !== document.getElementById('confirmPassword').value) {
+       // this.disabled = true;
         document.getElementById('errconfirmPassword').classList.add('is-danger');
         document.getElementById(`errconfirmPassword`).innerText = 'Password and Confirm Password do not match';
       } else {
         document.getElementById('errconfirmPassword').classList.remove('is-danger');
       }
+
+    if (document.getElementById('username').value && document.getElementById('password').value &&
+      document.getElementById('bio').value && document.getElementById('confirmPassword').value 
+      && document.getElementById('email').value && document.getElementById('password').value === document.getElementById('confirmPassword').value) {
       this.disabled = false;
     } else {
       this.disabled = true;
@@ -63,52 +65,109 @@ class RegistrationView extends LitElement {
   render() {
     return html`
       <div class="container">
-      <div class="notification is-primary">
-        <section class="section">
-          <h1 class="title">Register here</h1>
-          <div class="box" id="content-box">
-            <div class="field">
-              <label class="label">Full Name</label>
-              <div class="control">
-                <input id="username" class="input" type="text" placeholder="Enter username"
-                @input=${() => this.validateInput('username')}>
-                <label id="errusername" class="help"></label>
+        <div id="reg-form" class="box login-container" style="width:50%; margin: 0 auto;">        
+          <form style="">
+            <div class="columns is-mobile is-centered">
+              <div class="column is-half" style="text-align: center;">
+                <p class="bd-notification ">
+                  <img id="logo" src="https://stgthefuture.annalect.com/static/i/omni-logo-stacked.svg" alt="Omni logo">
+                </p>
               </div>
             </div>
-
-            <div class="field">
-              <label class="label">Email</label>
-              <div class="control">
-                <input id="email" class="input" type="email" placeholder="e.g. alex@example.com"
-                @input=${() => this.validateInput('email')}>
-                <label id="erremail" class="help"></label>
+            <div class="field columns is-vcentered">
+              <div class="column is-4">
+                <p class="bd-notification">
+                  <label class="label">Full Name</label>
+                </p>
+              </div>
+              <div class="column">
+                <p class="bd-notification">
+                  <input id="username" class="input" type="text" placeholder="Enter username"
+                    @input=${() => this.validateInput('username')}>
+                </p>
               </div>
             </div>
-
-            <div class="field">
-              <label class="label">Password</label>
-              <div class="control">
-                <input id="password" class="input" type="password" placeholder="********"
-                @input=${() => this.validateInput('password')}>
-                <label id="errpassword" class="help"></label>
+            <div class="field columns is-vcentered">
+              <div class="column is-4"></div>
+              <div class="column">
+                <p><label id="errusername" class="help"></label></p>
               </div>
             </div>
-
-            <div class="field">
-              <label class="label">Confirm Password</label>
-              <div class="control">
-                <input id="confirmPassword" class="input" type="password" placeholder="********"
-                @input=${() => this.validateInput('confirmPassword')}>
-                <label id="errconfirmPassword" class="help"></label>
+            <div class="field columns is-vcentered">
+              <div class="column is-4">
+                <p class="bd-notification">
+                  <label class="label">Email/ Username</label>
+                </p>
+              </div>
+              <div class="column">
+                <p class="bd-notification">
+                  <input id="email" class="input" type="email" placeholder="e.g. alex@example.com"
+                    @input=${() => this.validateInput('email')}>
+                </p>
               </div>
             </div>
-
-            <div class="field">
-              <label class="label">Bio</label>
-              <div class="control">
-                <textarea id="bio" class="textarea" placeholder="Tell us more about you"
-                @input=${() => this.validateInput('bio')}></textarea>
-                <label id="errbio" class="help"></label>
+            <div class="field columns is-vcentered">
+              <div class="column is-4"></div>
+              <div class="column">
+                <p><label id="erremail" class="help"></label></p>
+              </div>
+            </div>
+            
+            <div class="field columns is-vcentered">
+              <div class="column is-4">
+                <p class="bd-notification">
+                  <label class="label">Password</label>
+                </p>
+              </div>
+              <div class="column">
+                <p class="bd-notification">
+                  <input id="password" class="input" type="password" placeholder="********"
+                    @input=${() => this.validateInput('password')}>
+                </p>
+              </div>
+            </div>
+            <div class="field columns is-vcentered">
+              <div class="column is-4"></div>
+              <div class="column">
+                <p><label id="errpassword" class="help"></label></p>
+              </div>
+            </div>
+            <div class="field columns is-vcentered">
+              <div class="column is-4">
+                <p class="bd-notification">
+                  <label class="label">Confirm Password</label>
+                </p>
+              </div>
+              <div class="column">
+                <p class="bd-notification">
+                  <input id="confirmPassword" class="input" type="password" placeholder="********"
+                    @input=${() => this.validateInput('confirmPassword')}>
+                </p>
+              </div>
+            </div>
+            <div class="field columns is-vcentered">
+              <div class="column is-4"></div>
+              <div class="column">
+                <p><label id="errconfirmPassword" class="help"></label></p>
+              </div>
+            </div>
+            <div class="field columns is-vcentered">
+              <div class="column is-4">
+                <p class="bd-notification">
+                  <label class="label">Bio</label>
+                </p>
+              </div>
+              <div class="column">
+                <p class="bd-notification">
+                  <textarea id="bio" class="textarea" placeholder="Tell us more about you"
+                    @input=${() => this.validateInput('bio')}></textarea>
+                </p>
+              </div>
+            </div>
+            <div class="field columns is-vcentered">
+              <div class="column is-4"></div>
+              <div class="column">
+                <p><label id="errbio" class="help"></label></p>
               </div>
             </div>
 
@@ -132,15 +191,18 @@ class RegistrationView extends LitElement {
                 <label id="errphoto" class="help"></label>
               </div>
             </div>  -->
-            
-            <button class="button is-link" @click="${this.validateAttributes}"
-            ?disabled = ${this.disabled}>Register</button>
-            <button class="button is-link is-light">
-              <a href="/" class="has-text-link">Cancel</a>
-            </button>
-          </div>
+            <div class="field columns is-vcentered">
+              <div class="column " style="text-align: center;">
+                <button class="button is-primary transition-raise-hover login-button" id="submit" 
+                  type="submit" @click="${this.validateAttributes}" ?disabled = ${this.disabled}
+                  style="background-color: rgb(0, 161, 210); color: rgb(255, 255, 255); border-radius: 8px;border: 1px solid rgb(241, 245, 250);transition: background-color 0.25s ease 0s, border-color 0.25s ease 0s, color 0.25s ease 0s;line-height: 1;font-weight: 600;letter-spacing: 0.014em;height: 2.21em;padding: 0px 1.4em;box-shadow: none !important;">
+                  Register
+                </button>
+                <a href="/" class="button is-link is-light has-text-link">Cancel</a>
+              </div>
+            </div>
+          </form>
           <progress id="progress-bar" style="display:none" class="progress is-small is-primary" max="100">15%</progress>
-        </section>
       </div>
     </div>
     `;

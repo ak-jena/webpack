@@ -2,6 +2,7 @@ import './styles.css';
 import './views/registration-view.js';
 import './views/home-view.js';
 import './views/dashboard-view.js';
+
 import { Router } from '@vaadin/router';
 
 window.addEventListener('load', () => { 
